@@ -56,33 +56,25 @@ export const setupFileRouter = (app: FastifyInstance) => {
 
       console.log("视频转GIF：" + fileName);
       console.log(resultStr);
-      gifshot.createGIF({}, function(obj) {
-        if(!obj.error) {
-          var image = obj.image,
-          animatedImage = document.createElement('img');
-          animatedImage.src = image;
-          document.body.appendChild(animatedImage);
-        }
+      childProcess.exec(`ffmpeg ${resultStr}`).then((result) => {
+        res.status(200).send({
+          code: 200,
+          data: {
+            resultStr,
+            result
+          }
+        });
+      }).catch((err) => {
+        res.status(500).send({
+          code: 500,
+          err
+        });
       });
-      // childProcess.exec(`ffmpeg ${resultStr}`).then((result) => {
-      //   res.status(200).send({
-      //     code: 200,
-      //     data: {
-      //       resultStr,
-      //       result
-      //     }
-      //   });
-      // }).catch((err) => {
-      //   res.status(500).send({
-      //     code: 500,
-      //     err
-      //   });
-      // });
 
-      // res
-      //   .status(result.code)
-      //   .send({ code: result.code, msg: result.msg, data: fileUrl.slice(1) });
-    });
+    //   res
+    //     .status(result.code)
+    //     .send({ code: result.code, msg: result.msg, data: fileUrl.slice(1) });
+    // });
   });
 
   // 静态文件获取
