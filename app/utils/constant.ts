@@ -21,6 +21,7 @@ export const URLWhiteList = [
   { path: "/user/:userId", methods: "GET" },
   // 文件上传
   { path: "/file/upload", methods: "POST" },
+  { path: "/file/transform", methods: "POST" },
   // 测试接口
   { path: "/test/:key", methods: "*" },
   { path: "/category/:key", methods: "*" },
